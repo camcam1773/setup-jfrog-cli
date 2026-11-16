@@ -59,5 +59,10 @@ jobs:
       # Install and run tests
       - name: Install
         run: npm i
+      - name: Verify committed bundle is up to date
+        if: runner.os == 'Linux'
+        run: |
+          npm run bundle
+          git diff --exit-code -- dist
       - name: Unit tests
         run: npm t

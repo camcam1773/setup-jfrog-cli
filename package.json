@@ -3,14 +3,14 @@
     "version": "5.3.5",
     "private": true,
     "description": "Setup JFrog CLI in GitHub Actions",
-    "main": "lib/main.js",
+    "main": "dist/main/index.js",
     "engines": {
         "npm": ">=10.0.0",
         "node": ">=24.0.0"
     },
     "scripts": {
         "build": "tsc",
-        "prepublishOnly": "npm prune --production && npm run build",
+        "bundle": "npm run build && ncc build lib/main.js -o dist/main --minify && ncc build lib/cleanup.js -o dist/cleanup --minify",
         "format": "npx prettier --write **/*.ts",
         "format-check": "npx prettier --check **/*.ts",
         "lint": "npx eslint -c .eslintrc.js --ext .ts src",
@@ -41,14 +41,15 @@
         "@actions/http-client": "~2.2.1",
         "@actions/tool-cache": "~2.0.1",
         "@octokit/core": "^5.2.0",
-        "semver": "~7.6.3",
-        "js-yaml": "^4.1.0"
+        "js-yaml": "^4.1.0",
+        "semver": "~7.6.3"
     },
     "devDependencies": {
         "@types/jest": "^29.5.12",
         "@types/semver": "^7.5.8",
         "@typescript-eslint/eslint-plugin": "^6.21.0",
         "@typescript-eslint/parser": "^6.21.0",
+        "@vercel/ncc": "0.45.0",
         "eslint": "^8.57.0",
         "eslint-config-prettier": "^8.10.0",
         "husky": "^8.0.3",
